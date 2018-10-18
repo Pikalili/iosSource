@@ -58,7 +58,7 @@ class UserFeedViewController: UITableViewController {
     
     //TODO: Declare configureTableView here:
     func configurationTableView() {
-        feedTableView.rowHeight = 580.0
+        feedTableView.rowHeight = 600.0
         feedTableView.separatorColor = UIColor.clear
     }
     
@@ -90,6 +90,27 @@ class UserFeedViewController: UITableViewController {
             
         }
     }
+    
+    @IBAction func sortByButtonPressed(_ sender: Any) {
+        let sortSheetAlert = UIAlertController(title: "Select sorted by", message: "time or location?", preferredStyle: .actionSheet)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let time = UIAlertAction(title: "Time", style: .default) { (action) in
+            self.retrievePosts()
+            print("sorted by time")
+        }
+        let location = UIAlertAction(title: "Location", style: .default) { (action) in
+            self.retrievePosts()
+            print("sorted by location")
+        }
+        
+        sortSheetAlert.addAction(time)
+        sortSheetAlert.addAction(location)
+        sortSheetAlert.addAction(cancel)
+        
+        self.present(sortSheetAlert, animated: true, completion: nil)
+        
+    }
+    
 }
 
 extension UserFeedViewController: FeedCellDelegate {

@@ -8,23 +8,28 @@
 
 import UIKit
 import Kingfisher
+import CoreLocation
 import SwiftyJSON
 
 class Post
 {
-    var postId: Int
+    var id: String
     var createdBy: User
-    var timeAgo: String
+    var time: Date
     var imageUrl: URL
+    var capture: String
     var numberOfLikes: Int
     var comments: [Comment] = []
+    //var coordinate: [String:String]
     
-    init(postId: Int, createdBy: User, timeAgo: String, imageUrl: String, numberOfLikes: Int) {
-        self.postId = postId
+    init(postId: String, createdBy: User, time: Date, imageUrl: String, numberOfLikes: Int, capture: String) {
+        self.id = postId
         self.createdBy = createdBy
-        self.timeAgo = timeAgo
+        self.time = time
         self.imageUrl = URL(string: imageUrl)!
         self.numberOfLikes = numberOfLikes
+        self.capture = capture
+        //self.coordinate = ["la":la, "lon":lon]
     }
     
 //    init(json : JSON) {
@@ -38,31 +43,32 @@ class Post
     
     static func retrievePosts() -> [Post]
     {
-        
-        
         var posts = [Post]()
         
-//        let url = URL(string: "url_of_your_image")
-//        var imageView = UIImage()
-//        imageView.kf.setImage(with: url)
-        
-        let imageUrlString = "https://upload.wikimedia.org/wikipedia/commons/5/58/Sunset_2007-1.jpg"
-        
-        let zeo = User(username: "Zeo Li")
-        let post1 = Post(postId: 0, createdBy: zeo, timeAgo: "1 hr", imageUrl: imageUrlString, numberOfLikes: 12)
-        let post2 = Post(postId: 1, createdBy: zeo, timeAgo: "3 hrs", imageUrl: imageUrlString, numberOfLikes: 8)
-        let post3 = Post(postId: 2, createdBy: zeo, timeAgo: "5 hrs", imageUrl: imageUrlString, numberOfLikes: 8)
-        let penny = User(username: "Penny Peng")
-        let post4 = Post(postId: 3, createdBy: penny, timeAgo: "2 hrs", imageUrl: imageUrlString, numberOfLikes: 94)
-        let post5 = Post(postId: 4, createdBy: penny, timeAgo: "8 hrs", imageUrl: imageUrlString, numberOfLikes: 99)
-        let post6 = Post(postId: 5, createdBy: penny, timeAgo: "Yesterday", imageUrl: imageUrlString, numberOfLikes: 9)
-        
-        posts.append(post1)
-        posts.append(post4)
-        posts.append(post2)
-        posts.append(post5)
-        posts.append(post3)
-        posts.append(post6)
+        let jsonString = "[{\"_id\" : \"5bc857f45132fb7cd94568cf\", \"label\" : \"this field shows labels, description : this is krisWu, freestyle!\", \"likes\" : 0, \"postBy\" : \"5bc617582d31652f4995dfcb\", \"image\" : \"https://upload.wikimedia.org/wikipedia/commons/5/58/Sunset_2007-1.jpg\", \"comments\" : [ ], \"createdAt\" : \"2018-10-18T09:52:52.757Z\", \"__v\" : 0}]"
+
+        let jsonData = jsonString.data(using: .utf8)!
+        let postsJSON : JSON = JSON(jsonData)
+        let isoFormatter = DateFormatter()
+        isoFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+//        let myFormatter = DateFormatter()
+//        myFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+
+        for i in 0..<postsJSON.count {
+            let id = postsJSON[i]["_id"].stringValue
+            let zeo = User(username: "Zeo Li")
+            let capture = postsJSON[i]["label"].stringValue
+            let numberOfLikes = postsJSON[i]["likes"].int!
+            let postBy = postsJSON[i]["postBy"].stringValue
+            let imageUrlString = postsJSON[i]["image"].stringValue
+            
+            print(postsJSON[i]["createdAt"].stringValue)
+
+            let time : Date = isoFormatter.date(from: postsJSON[0]["createdAt"].stringValue)!
+            
+            var post : Post = Post(postId: id, createdBy: zeo, time: time, imageUrl: imageUrlString, numberOfLikes: numberOfLikes, capture: capture)
+            posts.append(post)
+        }
         
         return posts
     }

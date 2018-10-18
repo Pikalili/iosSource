@@ -31,7 +31,13 @@
                             <outlet property="delegate" destination="tJL-Yp-XkF" id="ban-Mn-RnK"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Instagram" id="BAV-Hf-y6F"/>
+                    <navigationItem key="navigationItem" title="Instagram" id="BAV-Hf-y6F">
+                        <barButtonItem key="rightBarButtonItem" title="sort by" id="pxp-qw-egz">
+                            <connections>
+                                <action selector="sortByButtonPressed:" destination="tJL-Yp-XkF" id="dhs-mg-kRd"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="feedTableView" destination="tOc-Z9-40Q" id="tY9-WL-hdb"/>
                         <segue destination="yLf-Ya-yQK" kind="show" identifier="goToAllComments" id="XcP-TD-nwA"/>
@@ -39,7 +45,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PyQ-RB-Jva" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1089" y="116"/>
+            <point key="canvasLocation" x="1162" y="116"/>
         </scene>
         <!--Comments-->
         <scene sceneID="3gw-0t-1dQ">

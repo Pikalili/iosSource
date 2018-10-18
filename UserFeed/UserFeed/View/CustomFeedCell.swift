@@ -25,6 +25,7 @@ class CustomFeedCell: UITableViewCell {
     @IBOutlet weak var likesLabel: UILabel!
     @IBOutlet weak var timeAgoLabel: UILabel!
     @IBOutlet weak var latestComment: UILabel!
+    @IBOutlet weak var captureLabel: UILabel!
     
     var post: Post! {
         didSet {
@@ -54,7 +55,9 @@ class CustomFeedCell: UITableViewCell {
         
         latestComment.text = post.comments.last?.body ?? "Be the first to add a comment!"
         
-        timeAgoLabel.text = post.timeAgo + " ago"
+        timeAgoLabel.text = "\(post.time)"
+        
+        captureLabel.text = post.capture
     }
     
     @IBAction func addCommentButtonPressed(_ sender: UIButton) {
@@ -69,5 +72,5 @@ class CustomFeedCell: UITableViewCell {
         post.addLike()
         likesLabel.text = "♥ "+"\(post.numberOfLikes)"+" Likes"
     }
-    
+
 }
